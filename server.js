@@ -24,12 +24,8 @@ app.get("/", (req, res) => {
   res.send("Happy Integration");
 });
 
-if (process.env.NODE_ENV !== "production") {
-  // Only start the server on localhost in development
-  app.listen(PORT, () => {
-    console.log(`Server is running locally on http://localhost:${PORT}`);
-  });
-} else {
-  // Export for serverless (Vercel)
-  module.exports.handler = serverless(app);
-}
+app.listen(PORT, () => {
+  console.log(`Server is running locally on http://localhost:${PORT}`);
+});
+
+module.exports.handler = serverless(app);
