@@ -25,8 +25,6 @@ app.use("/api/search", require("./routes/searchRoutes"));
 app.get("/", (req, res) => {
   res.send("Happy Integration");
 });
-app.listen(3000, () => {
-  console.log(`Server is running on http://localhost:3000`);
-});
+
 // Export the serverless handler
 module.exports = serverless(app);
