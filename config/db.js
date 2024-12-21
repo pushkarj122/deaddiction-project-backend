@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 
-const mongoURI = "mongodb://localhost:27017/deaddict";
+const mongoURI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoURI);
     console.log("MongoDB connected successfully");
   } catch (err) {
-    console.error("Error connecting to MongoDB: ", err.message);
-    process.exit(1);
+    console.error("Error connecting to MongoDB: ", err);
   }
 };
 
