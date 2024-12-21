@@ -18,7 +18,7 @@ function verifyToken(req, res, next) {
   try {
     // Verify the token
 
-    const decoded = jwt.verify(authToken, "your_secret_key");
+    const decoded = jwt.verify(authToken, process.env.SECRET_KEY);
 
     req.userId = decoded.userId; // Attach userId to the request
     next(); // Pass to the next middleware
