@@ -1,11 +1,16 @@
+require("dotenv").config();
+
 const express = require("express");
 const connectDB = require("./config/db");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+const serverless = require("serverless-http");
 
 const app = express();
 connectDB();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,10 +21,15 @@ app.use("/api/search", require("./routes/searchRoutes"));
 
 // Sample route
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Happy Integration");
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  // Only start the server on localhost in development
+  app.listen(PORT, () => {
+    console.log(`Server is running locally on http://localhost:${PORT}`);
+  });
+} else {
+  // Export for serverless (Vercel)
+  module.exports.handler = serverless(app);
+}
