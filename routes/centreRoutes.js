@@ -4,6 +4,7 @@ const verifyToken = require("../middlewares/authMiddleware");
 const centreController = require("../controllers/centreController");
 const patientController = require("../controllers/patientController");
 const eventController = require("../controllers/eventController");
+const feedbackController = require("../controllers/feedbackController");
 
 //Profile routes
 router.post("/profile", verifyToken, centreController.createOrUpdateProfile);
@@ -25,5 +26,8 @@ router.post("/events", verifyToken, eventController.createEvent);
 router.get("/events", verifyToken, eventController.getEvents);
 router.get("/events/:id", verifyToken, eventController.getEventById);
 router.delete("/events/:id", verifyToken, eventController.deleteEvent);
+
+//feedback
+router.post("/:id/feedback", feedbackController.addFeedback);
 
 module.exports = router;
