@@ -1,6 +1,5 @@
 const Patient = require("../models/Patient");
 
-// Add a new patient
 exports.addPatient = async (req, res) => {
   try {
     const {
@@ -17,7 +16,7 @@ exports.addPatient = async (req, res) => {
     } = req.body;
 
     const newPatient = new Patient({
-      centreId: req.userId, // Assuming `req.userId` contains the authenticated centre's ID
+      centreId: req.userId, //authenticated centre's ID
       name,
       gender,
       age,
@@ -41,7 +40,6 @@ exports.addPatient = async (req, res) => {
   }
 };
 
-// Get all patients for the authenticated centre
 exports.getAllPatients = async (req, res) => {
   try {
     const patients = await Patient.find({ centreId: req.userId });
@@ -53,25 +51,6 @@ exports.getAllPatients = async (req, res) => {
   }
 };
 
-// Get a specific patient by ID
-exports.getPatientById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const patient = await Patient.findOne({ _id: id, centreId: req.userId });
-
-    if (!patient) {
-      return res.status(404).json({ error: "Patient not found" });
-    }
-
-    res.status(200).json({ patient });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Failed to retrieve patient", details: error.message });
-  }
-};
-
-// Delete a patient
 exports.deletePatient = async (req, res) => {
   try {
     const { id } = req.params;

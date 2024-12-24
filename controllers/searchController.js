@@ -45,7 +45,6 @@ exports.getCentreDetails = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the Centre by its ID
     const centre = await Centre.findById(id);
 
     const feedbacks = await Feedback.find({ centreId: id });

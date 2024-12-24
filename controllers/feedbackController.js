@@ -1,19 +1,16 @@
 const Feedback = require("../models/Feedback");
 const Centre = require("../models/Centre");
 
-// Add Feedback
 exports.addFeedback = async (req, res) => {
   try {
     const { id } = req.params; // Centre ID
     const { name, feedback } = req.body;
 
-    // Check if the center exists
     const centre = await Centre.findById(id);
     if (!centre) {
       return res.status(404).json({ error: "Centre not found." });
     }
 
-    // Create and save the feedback
     const newFeedback = new Feedback({
       centreId: id,
       name,
