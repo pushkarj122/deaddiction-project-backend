@@ -18,16 +18,14 @@ router.get(
 //patient routes
 router.post("/patients", verifyToken, patientController.addPatient);
 router.get("/patients", verifyToken, patientController.getAllPatients);
-router.get("/patients/:id", verifyToken, patientController.getPatientById);
 router.delete("/patients/:id", verifyToken, patientController.deletePatient);
 
 // event routes
 router.post("/events", verifyToken, eventController.createEvent);
 router.get("/events", verifyToken, eventController.getEvents);
-router.get("/events/:id", verifyToken, eventController.getEventById);
 router.delete("/events/:id", verifyToken, eventController.deleteEvent);
 
-//feedback
+//feedback routes
 router.post("/:id/feedback", feedbackController.addFeedback);
 
 module.exports = router;
