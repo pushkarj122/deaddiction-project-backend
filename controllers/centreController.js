@@ -22,11 +22,9 @@ exports.createOrUpdateProfile = async (req, res) => {
       ownershipType,
     } = req.body;
 
-    // Check if the profile already exists
     let centre = await Centre.findOne({ userId });
 
     if (centre) {
-      // Update existing profile
       centre = await Centre.findOneAndUpdate(
         { userId },
         {
@@ -56,7 +54,6 @@ exports.createOrUpdateProfile = async (req, res) => {
         .json({ message: "Profile updated successfully", centre });
     }
 
-    // Create a new profile
     centre = new Centre({
       userId,
       name,
@@ -88,13 +85,23 @@ exports.createOrUpdateProfile = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
     const userId = req.userId;
-    const centre = await Centre.findOne({ userId });
+
+    // Find the centre and populate the associated user to get the email
+    const centre = await Centre.findOne({ userId }).populate({
+      path: "userId",
+      select: "email",
+    });
 
     if (!centre) {
       return res.status(404).json({ error: "Profile not found" });
     }
 
-    res.status(200).json({ centre });
+    const response = {
+      ...centre.toObject(),
+      email: centre.userId.email, // Add the email explicitly
+    };
+
+    res.status(200).json(response);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Server error" });
@@ -103,7 +110,7 @@ exports.getProfile = async (req, res) => {
 
 exports.checkProfileCompletion = async (req, res) => {
   try {
-    const userId = req.userId; // Retrieved from the token
+    const userId = req.userId;
     const centre = await Centre.findOne({ userId });
 
     if (centre) {

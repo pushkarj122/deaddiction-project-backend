@@ -1,6 +1,5 @@
 const Event = require("../models/Event");
 
-// Create a new event
 exports.createEvent = async (req, res) => {
   try {
     const { title, date, details } = req.body;
@@ -14,10 +13,9 @@ exports.createEvent = async (req, res) => {
   }
 };
 
-// Get all events for the authenticated centre
 exports.getEvents = async (req, res) => {
   try {
-    const centreId = req.userId; // From token
+    const centreId = req.userId;
     const events = await Event.find({ centreId });
     res.status(200).json(events);
   } catch (error) {
@@ -26,11 +24,10 @@ exports.getEvents = async (req, res) => {
   }
 };
 
-// Delete an event by ID
 exports.deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
-    const centreId = req.userId; // From token
+    const centreId = req.userId;
     const event = await Event.findOneAndDelete({ _id: id, centreId });
     if (!event) {
       return res.status(404).json({ error: "Event not found" });
@@ -39,21 +36,5 @@ exports.deleteEvent = async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Failed to delete event" });
-  }
-};
-
-// Get details of a single event by ID
-exports.getEventById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const centreId = req.userId; // From token
-    const event = await Event.findOne({ _id: id, centreId });
-    if (!event) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-    res.status(200).json(event);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Failed to fetch event details" });
   }
 };

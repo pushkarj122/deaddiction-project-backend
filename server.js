@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/centre", require("./routes/centreRoutes"));
 app.use("/api/search", require("./routes/searchRoutes"));
+app.use("/api/chat", require("./routes/chatRoutes"));
 
 // Sample route
 app.get("/", (req, res) => {
